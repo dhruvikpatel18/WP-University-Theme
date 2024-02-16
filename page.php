@@ -27,22 +27,70 @@ while ( have_posts() ) {
 	<!-- Main Content Section -->
 	<div class="container container--narrow page-section">
 
+	<?php
+	// Get the ID of the parent post (if it exists) for the current post
+	$theParent = wp_get_post_parent_id( get_the_ID() );
+
+	// Check if the current post has a parent
+	if ( $theParent ) {
+		?>
 		<!-- Metabox for Navigation Links -->
 		<div class="metabox metabox--position-up metabox--with-home-link">
-			<!-- Back to About Us Link and Current Page Title -->
-			<p><a class="metabox__blog-home-link" href="#"><i class="fa fa-home" aria-hidden="true"></i> Back to About Us</a> <span class="metabox__main">Our History</span></p>
+			<!-- Link to navigate back to the parent post -->
+			<p><a class="metabox__blog-home-link" href="<?php echo get_permalink( $theParent ); ?>">
+					<!-- Home icon -->
+					<i class="fa fa-home" aria-hidden="true"></i> 
+					<!-- Link text: "Back to" followed by the parent post title -->
+					Back to <?php echo get_the_title( $theParent ); ?>
+				</a> 
+				<!-- Main content of the metabox: Current post title -->
+				<span class="metabox__main"><?php the_title(); ?></span>
+			</p>
 		</div>
+		<?php
+	}
+	?>
 
+	<?php
+	// Get the ID of the parent post (if it exists) for the current post
+	$theParent = wp_get_post_parent_id( get_the_ID() );
+
+	// Get an array of child pages for the current post
+	$testArray = get_pages(
+		array(
+			'child_of' => get_the_ID(),
+		)
+	);
+
+	// Check if the current post has a parent or child pages
+	if ( $theParent or $testArray ) {
+		?>
 		<!-- Page Links Section -->
 		<div class="page-links">
-			<!-- About Us Section Title -->
-			<h2 class="page-links__title"><a href="#">About Us</a></h2>
-			<!-- Navigation Links -->
+			<!-- Heading with a link to the parent post (if it exists) -->
+			<h2 class="page-links__title"><a href="<?php echo get_permalink( $theParent ); ?>"><?php echo get_the_title( $theParent ); ?></a></h2>
+			<!-- Unordered list for child pages -->
 			<ul class="min-list">
-				<li class="current_page_item"><a href="#">Our History</a></li>
-				<li><a href="#">Our Goals</a></li>
+				<?php
+				// Determine the ID to find children of
+				if ( $theParent ) {
+					$findChildrenOf = $theParent;
+				} else {
+					$findChildrenOf = get_the_ID();
+				}
+
+				// List child pages with specified parameters
+				wp_list_pages(
+					array(
+						'title_li'    => null,             // Exclude the default title list item
+						'child_of'    => $findChildrenOf,  // Show children of the specified ID
+						'sort_column' => 'menu_order',   // Sort by menu order
+					)
+				);
+				?>
 			</ul>
 		</div>
+		<?php } ?>
 
 		<!-- Generic Content Section -->
 		<div class="generic-content">
