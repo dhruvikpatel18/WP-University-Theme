@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html <?php language_attributes(); ?>>
 
 <head>
+	<!-- Set the character set based on WordPress settings -->
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	
+	<!-- Set the viewport for responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
 	<!-- WordPress hook for adding elements in the head section -->
 	<?php wp_head(); ?>
 </head>
 
-<body>
+<body <?php body_class(); ?>>
 	<!-- Header Section -->
 	<header class="site-header">
 		<div class="container">
