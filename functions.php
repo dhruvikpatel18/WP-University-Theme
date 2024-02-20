@@ -30,3 +30,24 @@ function university_features() {
 // Hook the university_features function to the after_setup_theme action
 // This ensures that the function is executed after the theme is setup
 add_action( 'after_setup_theme', 'university_features' );
+
+// Define a custom function to register a custom post type for 'event'
+function university_post_types() {
+	// Register the custom post type 'event'
+	register_post_type('event', array(
+	  'public' => true, // Make the custom post type publicly accessible
+	  'show_in_rest' => true, // Enable support for the Gutenberg block editor and REST API
+	  'labels' => array(
+		'name' => 'Events', // Plural name for the custom post type in the admin menu
+		'add_new_item' => 'Add New Event', // Label for adding a new event
+		'edit_item' => 'Edit Event', // Label for editing an event
+		'all_items' => 'All Events', // Label for displaying all events
+		'singular_name' => 'Event' // Singular name for the custom post type
+	  ),
+	  'menu_icon' => 'dashicons-calendar' // Specify a Dashicon as the menu icon (calendar icon in this case)
+	));
+  }
+  
+  // Hook the university_post_types function to the 'init' action to register the custom post type during WordPress initialization
+  add_action('init', 'university_post_types');
+  
