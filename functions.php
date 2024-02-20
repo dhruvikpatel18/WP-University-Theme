@@ -35,6 +35,8 @@ add_action( 'after_setup_theme', 'university_features' );
 function university_post_types() {
 	// Register the custom post type 'event'
 	register_post_type('event', array(
+	  'rewrite' => array('slug' => 'events'), // Set the URL slug to 'events'
+	  'has_archive' => true, // Enable archive page for this custom post type
 	  'public' => true, // Make the custom post type publicly accessible
 	  'show_in_rest' => true, // Enable support for the Gutenberg block editor and REST API
 	  'labels' => array(
